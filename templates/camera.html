@@ -1,14 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
+<h6>Overveiw for the {{camera["manufacturer"]}} {{camera["name"]}}</h6>
+<h3>This is the {{camera["manufacturer"]}} {{camera["name"]}} a camera released on {{camera["release_date"]}}. The {{camera["name"]}} has a {{camera["megapixel"]}} megapixel {{camera["sensor_size"]}} sized sensor, this camera has the {{camera["manufacturer"]}} {{camera["mount"]}} mount with {{camera["lens_amount"]}} lenses to choose from. For the price of {{camera["price"]}} NZD the {{camera["manufacturer"]}} {{camera["name"]}} is a {{camera["rating"]}} camera.</h3>
 
-<h1>Name: {{camera["name"]}}</h1>
-<h1>Manufacturer: {{camera["manufacturer"]}}</h1>
-<h1>Release date: {{camera["release_date"]}}</h1>
-<h1>Megapixels: {{camera["megapixel"]}}</h1>
-<h1>Max iso: {{camera["max_iso"]}} iso</h1>
-<h1>Min iso: {{camera["min_iso"]}} iso</h1>
-<h1>Lens mount: {{camera["manufacturer"]}} {{camera["mount"]}} mount</h1>
-<h1>Ibis: {{camera["ibis"]}}</h1>
-<a href="/cameras">Back</a>
+<h3>Name: {{camera["name"]}}</h3>
+<h3>Manufacturer: {{camera["manufacturer"]}}</h3>
+<h3>Release date: {{camera["release_date"]}}</h3>
+<h3>Ergonomics: {{camera["ergonomics"]}}</h3>
+<h3>Megapixels: {{camera["megapixel"]}}</h3>
+<h3>Max iso: {{camera["max_iso"]}} iso</h3>
+<h3>Min iso: {{camera["min_iso"]}} iso</h3>
+<h3>Lens mount: {{camera["manufacturer"]}} {{camera["mount"]}} mount</h3>
+<h3>Ibis: {{camera["ibis"]}}</h3>
 
 {% endblock %}

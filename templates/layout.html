@@ -1,13 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" href="static/favicon.png" type="image/png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Camera Data - {{manufacturer}} {{name}}</title>
+    <title>Camera Data</title>
 </head>
+<header class="hero-image">
+    <div class="overlay">
+        <h1>Camera Comparison</h1>
+    </div>
+</header>
 <body>
-    <h1>Camera Comparison</h1>
+    <nav class="navbar">
+        <a href="/">Home</a>
+        <a href="/cameras">Camera List</a>
+        <a href="/comparison">Comparison</a>
+        <a href="/admin">Admin</a>
+    </nav>
     {% block content %}
     {% endblock %}
+    <h4>Very cool footer</h4>
 </body>
-</html> 
+</html>

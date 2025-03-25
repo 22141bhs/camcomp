@@ -1,0 +1,77 @@
+h3{
+    font-size: 20px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin-top: 3%;
+    margin-left: 15%;
+    margin-right: 15%;
+
+}
+
+
+h1{
+    font-size: 35px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin-left: 80%;
+}
+
+
+.navbar {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;  
+    gap: 20px;  
+    margin-top: 10px;
+}
+
+.navbar a {
+    text-decoration: none;  
+    font-size: 25px;  
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+
+}
+
+h6{
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 20px;  
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+a{
+    text-decoration: none;  
+    color: rgb(255, 255, 255);
+}
+
+h4{
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 10px;  
+    text-align: center;
+    color: rgb(255, 255, 255);
+}
+
+.hero-image {
+    background-image: url('/static/hero_image.jpeg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+body {
+    margin: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #2e2b2b;
+    color: #ffffff;
+}
+
+.overlay {
+    background-color: rgba(0, 0, 0, 0.0);
+    width: 100%;
+    padding: 20px;
+}

@@ -3,9 +3,21 @@ import sqlite3
 
 app = Flask(__name__)
 
+
+
 @app.route("/")
 def home():
     return render_template("home.html")
+
+@app.route("/admin")
+def admin():
+    return render_template("admin.html")
+
+@app.route("/comparison")
+def comparison():
+    return render_template("comparison.html")
+
+
 
 
 @app.route("/cameras")
@@ -21,7 +33,7 @@ def camera():
 def cameras(cam_id):
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
-    cur.execute('SELECT name, manufacturer, release_date, megapixel, ergonomics, cont_shoot, max_iso, min_iso, video_res, vid_frame_rate, flash, bit_depth, mount, sensor_size, slomo_vidres, slomo_vidfps, shots_per_bat, af_points, af_point_type, face_af, eye_af, ibis FROM cameras JOIN manufacturer_table ON cameras.manufacturer_id = manufacturer_table.manufacturer_id WHERE cam_id = ?', (cam_id,))
+    cur.execute('SELECT name, manufacturer, release_date, megapixel, ergonomics, cont_shoot, max_iso, min_iso, video_res, vid_frame_rate, flash, bit_depth, mount, sensor_size, slomo_vidres, slomo_vidfps, shots_per_bat, af_points, af_point_type, face_af, eye_af, ibis, price, overall_rating, amount_lens FROM cameras JOIN manufacturer_table ON cameras.manufacturer_id = manufacturer_table.manufacturer_id WHERE cam_id = ?', (cam_id,))
     cameradata = cur.fetchall()[0]
     camera = {
     "name": cameradata[0],
@@ -46,6 +58,12 @@ def cameras(cam_id):
     "face_af": cameradata[19],
     "eye_af": cameradata[20],
     "ibis": cameradata[21],
+    "price": cameradata[22],
+    "rating": cameradata[23],
+    "lens_amount": cameradata[24],
+
+
+    
     }
     conn.close()
     return render_template("camera.html",camera = camera)
