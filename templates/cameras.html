@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block content %}
+{% for cam in cameras %}
+<h1>
+<a href="/cameras/{{cam[0]}}">{{cam[2]}} {{cam[1]}}</a>
+</h1>
+{% endfor %}
+<a href="/">Home</a>
+{% endblock %}

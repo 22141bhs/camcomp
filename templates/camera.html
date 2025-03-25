@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>Name: {{camera["name"]}}</h1>
+<h1>Manufacturer: {{camera["manufacturer"]}}</h1>
+<h1>Release date: {{camera["release_date"]}}</h1>
+<h1>Megapixels: {{camera["megapixel"]}}</h1>
+<h1>Max iso: {{camera["max_iso"]}} iso</h1>
+<h1>Min iso: {{camera["min_iso"]}} iso</h1>
+<h1>Lens mount: {{camera["manufacturer"]}} {{camera["mount"]}} mount</h1>
+<h1>Ibis: {{camera["ibis"]}}</h1>
+<a href="/cameras">Back</a>
+
+{% endblock %}
