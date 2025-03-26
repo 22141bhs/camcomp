@@ -1,12 +1,10 @@
 h3{
     font-size: 20px;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    margin-top: 3%;
     margin-left: 15%;
     margin-right: 15%;
 
 }
-
 
 h1{
     font-size: 35px;
@@ -20,12 +18,13 @@ h1{
     display: flex;
     justify-content: center;  
     gap: 20px;  
-    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .navbar a {
     text-decoration: none;  
-    font-size: 25px;  
+    font-size: 20px;  
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: rgb(255, 255, 255);
     font-weight: bold;
@@ -34,7 +33,7 @@ h1{
 
 h6{
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 20px;  
+    font-size: 23px;  
     margin-left: 15%;
     margin-right: 15%;
 }
@@ -71,7 +70,10 @@ body {
 }
 
 .overlay {
-    background-color: rgba(0, 0, 0, 0.0);
+    background-color: rgb(33, 32, 32);
     width: 100%;
-    padding: 20px;
+}
+
+.text {
+    width: 100%;
 }

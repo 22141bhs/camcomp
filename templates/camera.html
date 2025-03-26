@@ -6,11 +6,34 @@
 <h3>Name: {{camera["name"]}}</h3>
 <h3>Manufacturer: {{camera["manufacturer"]}}</h3>
 <h3>Release date: {{camera["release_date"]}}</h3>
-<h3>Ergonomics: {{camera["ergonomics"]}}</h3>
 <h3>Megapixels: {{camera["megapixel"]}}</h3>
-<h3>Max iso: {{camera["max_iso"]}} iso</h3>
-<h3>Min iso: {{camera["min_iso"]}} iso</h3>
 <h3>Lens mount: {{camera["manufacturer"]}} {{camera["mount"]}} mount</h3>
-<h3>Ibis: {{camera["ibis"]}}</h3>
+
+<h6>Video Specs for the {{camera["manufacturer"]}} {{camera["name"]}}</h6>
+<h3>Video: {{camera["video_res"]}} at {{camera["vid_frame_rate"]}}fps</h3>
+<h3>Slow Motion: {{camera["slomo_vidres"]}} at {{camera["slomo_vidfps"]}}fps</h3>
+<h3>Bit depth: {{camera["bit_depth"]}} bit colour</h3>
+
+<h6>Low light performance of the {{camera["manufacturer"]}} {{camera["name"]}}</h6>
+{% if camera["sensor_size"] == "APS C" %}
+<h3>The {{camera["name"]}} has a {{camera["sensor_size"]}} sized sensor which has decent low light performance but not as good as full frame due to a smaller sensor area. The {{camera["name"]}} has a iso range of {{camera["min_iso"]}}-{{camera["max_iso"]}}</h3>
+{% endif %}
+
+{% if camera["sensor_size"] == "Full Frame" %}
+<h3>The {{camera["name"]}} has a {{camera["sensor_size"]}} sized sensor which has great low light performance due to the large sensor area being larger than APS C and MFT. The {{camera["name"]}} has a iso range of {{camera["min_iso"]}}-{{camera["max_iso"]}} which makes it a {{camera["rating"]}} camera for low light use</h3>
+{% endif %}
+
+<h6>Ergomonics and Portability</h6>
+{% if camera["sensor_size"] == "APS C" %}
+<h3>The {{camera["manufacturer"]}} {{camera["name"]}} is a {{camera["sensor_size"]}} sized sensor and normally {{camera["sensor_size"]}} cameras are alot smaller than Full Frame, this makes the {{camera["manufacturer"]}} {{camera["name"]}} better in terms of portability. Ergonomics are another important factor becuase its not comfortable you will not have fun taking photos, the {{camera["manufacturer"]}} {{camera["name"]}} is {{camera["ergonomics"]}} when it comes to ergonomics. Added with the fact this is a APS C sized system the {{camera["name"]}} will be {{camera["ergonomics"]}} for portability and comfort</h3>
+{% endif %}
+
+
+{% if camera["sensor_size"] == "Full Frame" %}
+<h3>The {{camera["manufacturer"]}} {{camera["name"]}} is a {{camera["sensor_size"]}} sized sensor and full frame cameras are alot more bulky and less portable due to having a larger full frame sensor. This makes the {{camera["name"]}} not the best in terms of portability (with some exeptions). Now for ergonomics, sensor size is irelevant here, the {{camera["name"]}} has {{camera["ergonomics"]}} ergonomics in terms of grip for your hands. </h3>
+{% endif %}
+
+<h6>Autofocus</h6>
+<h3></h3>
 
 {% endblock %}
