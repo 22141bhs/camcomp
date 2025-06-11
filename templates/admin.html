@@ -1,4 +1,21 @@
 {% extends "layout.html" %}
 {% block content %}
-<h3>Admin page, also WIP</h3>
+<h3>Add a Camera</h3>
+<body>
+    <form action="/" method="POST">
+        <label>Camera Name</label>
+        <input type="text" name="name" maxlength="15" required><br><br>
+
+        <label>Manufacturer</label>
+        <input type="text" required><br><br>
+
+        <label>Release Date</label>
+        <input type="text"><br><br>
+
+        <label>Megapixels</label>
+        <input type="text"><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
 {% endblock %}

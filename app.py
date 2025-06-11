@@ -20,16 +20,16 @@ def comparison():
 
 
 
-@app.route("/cameras")
+@app.route("/all_cameras")
 def camera():
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
     cur.execute('SELECT cam_id, name, manufacturer FROM cameras JOIN manufacturer_table ON cameras.manufacturer_id = manufacturer_table.manufacturer_id')
     cameras = cur.fetchall()
     conn.close()
-    return render_template("cameras.html",cameras = cameras)
+    return render_template("all_cameras.html",cameras = cameras)
 
-@app.route("/cameras/<int:cam_id>")
+@app.route("/camera/<int:cam_id>")
 def cameras(cam_id):
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
