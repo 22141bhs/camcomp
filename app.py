@@ -41,6 +41,13 @@ def registerlogin():
             login_message = "Incorrect Username"
     return app.redirect("admin")
 
+
+@app.route("/logout")
+def logout():
+    global admin_active
+    admin_active = False
+    return app.redirect("admin")
+
 @app.route("/comparison")
 def comparison():
     return render_template("comparison.html")
