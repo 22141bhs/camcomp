@@ -1,21 +1,36 @@
 {% extends "layout.html" %}
 {% block content %}
+
+{% if not admin_active %}
+<h3>LOGIN</h3>
+<form action="/registerlogin" method="post">
+    <label>Username</label>
+    <input type="text" name="username">
+
+    <label>Password</label>
+    <input type="password" name="password">
+
+    <input type="submit">
+</form>
+{% if login_message %}
+<h1>{{login_message}}</h1>
+{% endif %}
+{% else %}
 <h3>Add a Camera</h3>
-<body>
-    <form action="/" method="POST">
-        <label>Camera Name</label>
-        <input type="text" name="name" maxlength="15" required><br><br>
+<form action="/" method="POST">
+    <label>Camera Name</label>
+    <input type="text" name="name" maxlength="15" required><br><br>
 
-        <label>Manufacturer</label>
-        <input type="text" required><br><br>
+    <label>Manufacturer</label>
+    <input type="text" required><br><br>
 
-        <label>Release Date</label>
-        <input type="text"><br><br>
+    <label>Release Date</label>
+    <input type="text"><br><br>
 
-        <label>Megapixels</label>
-        <input type="text"><br><br>
+    <label>Megapixels</label>
+    <input type="text"><br><br>
 
-        <input type="submit" value="Submit">
-    </form>
-</body>
+    <input type="submit" value="Submit">
+</form>
+{% endif %}
 {% endblock %}

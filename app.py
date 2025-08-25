@@ -1,8 +1,10 @@
-from flask import Flask,render_template
+from flask import Flask,render_template, request
 import sqlite3
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-
+login_message = ""
+admin_active = False
 
 
 @app.route("/")
@@ -11,7 +13,33 @@ def home():
 
 @app.route("/admin")
 def admin():
-    return render_template("admin.html")
+    return render_template("admin.html", admin_active=admin_active, login_message=login_message)
+
+
+@app.route("/registerlogin", methods=['GET', 'POST'])
+def registerlogin():
+    global login_message, admin_active
+    success = False
+    userid = 0
+    username = request.form.get("username")
+    password = request.form.get("password")
+    with sqlite3.connect('database.db') as db:
+        userdata = db.cursor().execute("SELECT id, username FROM admin_logins;")
+        for user in userdata:
+            if username == user[1]:
+                success = True
+                userid = user[0]
+                break
+        
+        if success:
+            if check_password_hash(db.cursor().execute("SELECT passwordhash FROM admin_logins WHERE id=?;", (userid,)).fetchall()[0][0], password):
+                admin_active = True
+                login_message = "Login Successful"
+            else:
+                login_message = "Incorrect Password"
+        else:
+            login_message = "Incorrect Username"
+    return app.redirect("admin")
 
 @app.route("/comparison")
 def comparison():
