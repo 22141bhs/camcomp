@@ -33,6 +33,9 @@ camera_add = {"manufacturer_id": 0,
               "amount_lens": 0}
 
 
+
+
+
 @app.route("/")
 def home():
     return render_template("home.html")
@@ -95,6 +98,59 @@ def admin3():
         return render_template("admin3.html")
     else:
         return "You do not have permission to be on this page!"
+
+
+@app.route("/admin/addcamera", methods=["GET", "POST"])
+def add_camera():
+    if admin_active:
+        camera_add["cont_shoot"] = request.form.get("cont_shoot")
+        camera_add["video_res"] = request.form.get("video_res")
+        camera_add["vid_frame_rate"] = request.form.get("vid_frame_rate")
+        camera_add["slomo_vidres"] = request.form.get("slomo_vidres")
+        camera_add["solmo_vidfps"] = request.form.get("slomo_vidfps")
+        camera_add["shots_per_bat"] = request.form.get("shots_per_bat")
+        camera_add["af_points"] = request.form.get("af_points")
+        camera_add["af_points_type"] = request.form.get("af_point_type")
+        face_af = request.form.get("face_af")
+        eye_af = request.form.get("eye_af")
+        ibis = request.form.get("ibis")
+        camera_add["amount_lens"] = request.form.get("amount_lens")
+        camera_add["ergonomics"] = request.form.get("ergonomics")
+
+        if face_af:
+            face_af = "does"
+        else:
+            face_af = "doesn't"
+        
+        if eye_af:
+            eye_af = "does"
+        else:
+            eye_af = "doesn't"
+        
+        if ibis:
+            ibis = "does"
+        else:
+            ibis = "doesn't"
+
+        camera_add["face_af"] = face_af
+        camera_add["eye_af"] = eye_af
+        camera_add["ibis"] = ibis
+
+        with sqlite3.connect("database.db") as db:
+            db.cursor().execute('''
+                                INSERT INTO cameras (manufacturer_id, name, release_date, megapixel, ergonomics, cont_shoot, max_iso, min_iso, video_res, 
+                                vid_frame_rate, flash, bit_depth, mount, sensor_size, slomo_vidres, slomo_vidfps, shots_per_bat, af_points, af_point_type, 
+                                face_af, eye_af, ibis, price, overall_rating, amount_lens)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);''',
+                                (camera_add["manufacturer_id"], camera_add["name"], camera_add["release_date"], camera_add["megapixel"], camera_add["ergonomics"], camera_add["cont_shoot"], 
+                                 camera_add["max_iso"], camera_add["min_iso"], camera_add["video_res"], camera_add["vid_frame_rate"], camera_add["flash"], camera_add["bit_depth"], camera_add["mount"], 
+                                 camera_add["sensor_size"], camera_add["slomo_vidres"], camera_add["solmo_vidfps"], camera_add["shots_per_bat"], camera_add["af_points"], camera_add["af_points_type"],
+                                 camera_add["face_af"], camera_add["eye_af"], camera_add["ibis"], camera_add["price"], camera_add["overall_rating"], camera_add["amount_lens"]))
+        return app.redirect("/all_cameras")
+
+    else:
+        return "You do not have permission to be on this page!"
+
 
 @app.route("/registerlogin", methods=['GET', 'POST'])
 def registerlogin():

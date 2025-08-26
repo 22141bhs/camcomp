@@ -2,7 +2,7 @@
 
 {% block content %}
 <h3>Add more camera information</h3>
-<form action="" method="post">
+<form action="/admin/addcamera" method="post">
     <label>Cont Shoot</label>
     <input type="number" name="cont_shoot"><br><br>
     
@@ -21,7 +21,35 @@
     <label>Shots Per Battery</label>
     <input type="number" name="shots_per_bat"><br><br>
 
-    
+    <label>AF Points</label>
+    <input type="number" name="af_points"><br><br>
+
+    <label>AF Point Type</label>
+    <input type="text" name="af_point_type"><br><br>
+
+    <label>Face AF</label>
+    <input type="checkbox" name="face_af"><br><br>
+
+    <label>Eye AF</label>
+    <input type="checkbox" name="eye_af"><br><br>
+
+    <label>Ibis</label>
+    <input type="checkbox" name="ibis"><br><br>
+
+    <label>Lens Amount</label>
+    <input type="number" name="amount_lens"><br><br>
+
+    <label>Ergonomics</label>
+    <select name="ergonomics">
+        <option value="mid">Mid</option>
+        <option value="okay">Okay</option>
+        <option value="good">Good</option>
+        <option value="excellent">Excellent</option>
+    </select>
+
+    <input type="submit" value="Add Camera">
+
+
 
 
 </form>
