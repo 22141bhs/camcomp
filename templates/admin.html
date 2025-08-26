@@ -2,7 +2,7 @@
 {% block content %}
 
 {% if not admin_active %}
-<h3>LOGIN</h3>
+<h3>Login</h3>
 <form action="/registerlogin" method="post">
     <label>Username</label>
     <input type="text" name="username">
@@ -10,29 +10,47 @@
     <label>Password</label>
     <input type="password" name="password">
 
-    <input type="submit">
+    <input type="submit" value="Login">
 </form>
 {% if login_message %}
-<h1>{{login_message}}</h1>
+<h3>{{login_message}}</h3>
 {% endif %}
 {% else %}
 <h3>Add a Camera</h3>
-<form action="/" method="POST">
+<form action="/admin/2" method="post">
     <label>Camera Name</label>
     <input type="text" name="name" maxlength="15" required><br><br>
 
     <label>Manufacturer</label>
-    <input type="text" required><br><br>
+    <select name="manufacturer">
+        {% for i in manufacturers %}
+        <option value="{{i[0]}}">{{i[1]}}</option>
+        {% endfor %}
+    </select>
 
     <label>Release Date</label>
-    <input type="text"><br><br>
+    <input type="date" name="release_date"><br><br>
 
     <label>Megapixels</label>
-    <input type="text"><br><br>
+    <input type="number" name="megapixels"><br><br>
 
-    <input type="submit" value="Submit">
+    <label>Mount</label>
+    <input type="text" name="mount"><br><br>
+
+    <label>Sensor Size</label>
+    <input type="text" name="sensor_size">
+
+    <label>Price</label>
+    <input type="number" name="price"><br><br>
+
+    <label>Overall Rating</label>
+    <input type="number" name="overall_rating"><br><br>
+
+
+
+    <input type="submit" value="Continue">
 </form>
 
-<h3><a href="/logout">LOGOUT</a></h3>
+<h4><a href="/logout">LOGOUT</a></h4>
 {% endif %}
 {% endblock %}

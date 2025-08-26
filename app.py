@@ -6,6 +6,32 @@ app = Flask(__name__)
 login_message = ""
 admin_active = False
 
+camera_add = {"manufacturer_id": 0,
+              "name": "",
+              "release_date": "",
+              "megapixel": 1,
+              "ergonomics": "",
+              "cont_shoot": 0,
+              "max_iso": 0,
+              "min_iso": 0,
+              "video_res": "",
+              "vid_frame_rate": 0,
+              "flash": "",
+              "bit_depth": 0,
+              "mount": "",
+              "sensor_size": "",
+              "slomo_vidres": "",
+              "solmo_vidfps": 0,
+              "shots_per_bat": 0,
+              "af_points": 0,
+              "af_points_type": "",
+              "face_af": "",
+              "eye_af": "",
+              "ibis": "",
+              "price": 0,
+              "overall_rating": "",
+              "amount_lens": 0}
+
 
 @app.route("/")
 def home():
@@ -13,8 +39,62 @@ def home():
 
 @app.route("/admin")
 def admin():
-    return render_template("admin.html", admin_active=admin_active, login_message=login_message)
+    with sqlite3.connect("database.db") as db:
+        
+        manufacturer_entries = db.cursor().execute("SELECT manufacturer_id, manufacturer FROM manufacturer_table;")
+    return render_template("admin.html", admin_active=admin_active, login_message=login_message, manufacturers=manufacturer_entries)
 
+
+@app.route("/admin/2", methods=["GET", "POST"])
+def admin2():
+    if admin_active:
+        name = request.form.get("name")
+        manufacturer = request.form.get("manufacturer")
+        release_date = request.form.get("release_date")
+        megapixels = request.form.get("megapixels")
+        mount = request.form.get("mount")
+        price = request.form.get("price")
+        overall_rating = request.form.get("overall_rating")
+        sensor_size = request.form.get("sensor_size")
+
+        release_date = release_date[8:] + "/" + release_date[5:7] + "/" + release_date[:4]
+
+        camera_add["name"] = name
+        camera_add["manufacturer_id"] = manufacturer
+        camera_add["release_date"] = release_date
+        camera_add["megapixel"] = megapixels
+        camera_add["mount"] = mount
+        camera_add["price"] = price
+        camera_add["overall_rating"] = overall_rating
+        camera_add["sensor_size"] = sensor_size
+
+
+        return render_template("admin2.html")
+    else:
+        return "You do not have permission to be on this page!"
+    
+
+@app.route("/admin/3", methods=["GET", "POST"])
+def admin3():
+    if admin_active:
+        max_iso = request.form.get("max_iso")
+        min_iso = request.form.get("min_iso")
+        flash = request.form.get("flash")
+        bit_depth = request.form.get("bit_depth")
+
+        if flash:
+            flash = "does"
+        else:
+            flash = "doesn't"
+        
+        camera_add["max_iso"] = max_iso
+        camera_add["min_iso"] = min_iso
+        camera_add["flash"] = flash
+        camera_add["bit_depth"] = bit_depth
+
+        return render_template("admin3.html")
+    else:
+        return "You do not have permission to be on this page!"
 
 @app.route("/registerlogin", methods=['GET', 'POST'])
 def registerlogin():
@@ -34,7 +114,6 @@ def registerlogin():
         if success:
             if check_password_hash(db.cursor().execute("SELECT passwordhash FROM admin_logins WHERE id=?;", (userid,)).fetchall()[0][0], password):
                 admin_active = True
-                login_message = "Login Successful"
             else:
                 login_message = "Incorrect Password"
         else:
@@ -96,12 +175,12 @@ def cameras(cam_id):
     "price": cameradata[22],
     "rating": cameradata[23],
     "lens_amount": cameradata[24],
-
-
-    
     }
+
+
     conn.close()
     return render_template("camera.html",camera = camera)
+
 
 
 
