@@ -34,18 +34,26 @@
     <label>Megapixels</label>
     <input type="number" name="megapixels"><br><br>
 
-    <label>Mount</label>
+    <label>Mount *put N/A if non ICLE</label>
     <select name="mount">
+        <option value="N/A">N/A</option>
         <option value="E">Sony E</option>
         <option value="RF">Canon RF</option>
         <option value="FE">Sony FE</option>
         <option value="Z">Nikon Z</option>
         <option value="RF">Canon RF</option>
         <option value="L">Lecia L</option>
+
     </select>
 
     <label>Sensor Size</label>
-    <input type="text" name="sensor_size">
+    <select name="sensor_size">
+        <option value="Medium Format">Medium Format</option>
+        <option value="Full Frame">Full Frame</option>
+        <option value="APS C">APS C</option>
+        <option value="MFT">Micro 4/3s</option>
+        <option value="1in">1 in</option>
+    </select>
 
     <label>Price</label>
     <input type="number" name="price"><br><br>
