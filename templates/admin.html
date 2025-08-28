@@ -5,15 +5,14 @@
 <h3>Login</h3>
 <form action="/registerlogin" method="post">
     <label>Username</label>
-    <input type="text" name="username">
+    <input type="text" name="username" required>
 
     <label>Password</label>
-    <input type="password" name="password">
+    <input type="password" name="password" required>
 
     <input type="submit" value="Login">
 </form>
 {% if login_message %}
-<h3>{{login_message}}</h3>
 {% endif %}
 {% else %}
 <h3>Add a Camera</h3>

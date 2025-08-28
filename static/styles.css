@@ -122,3 +122,17 @@ button:hover, input[type="submit"]:hover {
 }
 
 
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #4CAF50; 
+    cursor: pointer;
+}
+
+
+input[type="checkbox"] {
+    color: white;
+    margin-left: 30px;
+    cursor: pointer;
+    padding-left: 10px;
+}
