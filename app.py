@@ -1,11 +1,13 @@
 from flask import Flask,render_template, request
 import sqlite3
+import os
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 login_message = ""
 admin_active = False
-
+app.config["UPLOAD_FOLDER"] = "static/images"
 camera_add = {"manufacturer_id": 0,
               "name": "",
               "release_date": "",
@@ -116,6 +118,21 @@ def add_camera():
         ibis = request.form.get("ibis")
         camera_add["amount_lens"] = request.form.get("amount_lens")
         camera_add["ergonomics"] = request.form.get("ergonomics")
+        if "image" not in request.files:
+            pass
+        
+        image = request.files["image"]
+
+        image_name = secure_filename(image.filename)
+
+        if not (image and image_name and image.name):
+            pass
+
+        with sqlite3.connect('database.db') as db:
+            camera_id = db.cursor().execute("SELECT cam_id FROM cameras;").fetchall()[-1][0] + 1
+        
+        os.mkdir(f"{app.config["UPLOAD_FOLDER"]}/{camera_id}")
+        image.save(os.path.join(f"{app.config["UPLOAD_FOLDER"]}/{camera_id}/", image_name))
 
         if face_af:
             face_af = "does"
@@ -140,12 +157,12 @@ def add_camera():
             db.cursor().execute('''
                                 INSERT INTO cameras (manufacturer_id, name, release_date, megapixel, ergonomics, cont_shoot, max_iso, min_iso, video_res, 
                                 vid_frame_rate, flash, bit_depth, mount, sensor_size, slomo_vidres, slomo_vidfps, shots_per_bat, af_points, af_point_type, 
-                                face_af, eye_af, ibis, price, overall_rating, amount_lens)
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);''',
+                                face_af, eye_af, ibis, price, overall_rating, amount_lens, image)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);''',
                                 (camera_add["manufacturer_id"], camera_add["name"], camera_add["release_date"], camera_add["megapixel"], camera_add["ergonomics"], camera_add["cont_shoot"], 
                                  camera_add["max_iso"], camera_add["min_iso"], camera_add["video_res"], camera_add["vid_frame_rate"], camera_add["flash"], camera_add["bit_depth"], camera_add["mount"], 
                                  camera_add["sensor_size"], camera_add["slomo_vidres"], camera_add["solmo_vidfps"], camera_add["shots_per_bat"], camera_add["af_points"], camera_add["af_points_type"],
-                                 camera_add["face_af"], camera_add["eye_af"], camera_add["ibis"], camera_add["price"], camera_add["overall_rating"], camera_add["amount_lens"]))
+                                 camera_add["face_af"], camera_add["eye_af"], camera_add["ibis"], camera_add["price"], camera_add["overall_rating"], camera_add["amount_lens"], image_name))
         return app.redirect("/all_cameras")
 
     else:
@@ -197,13 +214,13 @@ def camera():
     cur.execute('SELECT cam_id, name, manufacturer FROM cameras JOIN manufacturer_table ON cameras.manufacturer_id = manufacturer_table.manufacturer_id')
     cameras = cur.fetchall()
     conn.close()
-    return render_template("all_cameras.html",cameras = cameras)
+    return render_template("all_cameras.html",cameras = cameras, admin=admin_active)
 
 @app.route("/camera/<int:cam_id>")
 def cameras(cam_id):
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
-    cur.execute('SELECT name, manufacturer, release_date, megapixel, ergonomics, cont_shoot, max_iso, min_iso, video_res, vid_frame_rate, flash, bit_depth, mount, sensor_size, slomo_vidres, slomo_vidfps, shots_per_bat, af_points, af_point_type, face_af, eye_af, ibis, price, overall_rating, amount_lens FROM cameras JOIN manufacturer_table ON cameras.manufacturer_id = manufacturer_table.manufacturer_id WHERE cam_id = ?', (cam_id,))
+    cur.execute('SELECT name, manufacturer, release_date, megapixel, ergonomics, cont_shoot, max_iso, min_iso, video_res, vid_frame_rate, flash, bit_depth, mount, sensor_size, slomo_vidres, slomo_vidfps, shots_per_bat, af_points, af_point_type, face_af, eye_af, ibis, price, overall_rating, amount_lens, image FROM cameras JOIN manufacturer_table ON cameras.manufacturer_id = manufacturer_table.manufacturer_id WHERE cam_id = ?', (cam_id,))
     cameradata = cur.fetchall()[0]
     camera = {
     "name": cameradata[0],
@@ -231,13 +248,28 @@ def cameras(cam_id):
     "price": cameradata[22],
     "rating": cameradata[23],
     "lens_amount": cameradata[24],
+    "image": cameradata[25],
+    "cam_id": cam_id
     }
 
 
     conn.close()
-    return render_template("camera.html",camera = camera)
+    return render_template("camera.html",camera = camera, admin=admin_active)
 
 
+@app.route("/delete/<int:id>")
+def delete_camera(id):
+    if admin_active:
+        directory = f"{app.config["UPLOAD_FOLDER"]}/{id}"
+        for file in os.listdir(directory):
+            os.remove(f"{directory}/{file}")
+        os.rmdir(directory)
+        with sqlite3.connect('database.db') as db:
+            cursor = db.cursor()
+            cursor.execute("DELETE FROM cameras WHERE cam_id=?", (id,))
+        return app.redirect("/all_cameras")
+    else:
+        return "You do not have permission to be on this page!"
 
 
 

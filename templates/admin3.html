@@ -2,7 +2,7 @@
 
 {% block content %}
 <h3>Add more camera information</h3>
-<form action="/admin/addcamera" method="post">
+<form action="/admin/addcamera" method="post" enctype="multipart/form-data">
     <label>Cont Shoot</label>
     <input type="number" name="cont_shoot" required><br><br>
     
@@ -46,6 +46,9 @@
         <option value="good">Good</option>
         <option value="excellent">Excellent</option>
     </select>
+
+    <label>Image</label>
+    <input type="file" name="image" accept="image/*"><br><br>
 
     <input type="submit" value="Add Camera">
 

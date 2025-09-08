@@ -1,57 +1,63 @@
-h3{
-    font-size: 20px;
+h3 {
+    font-size: 15px;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin-left: 15%;
     margin-right: 15%;
     text-align: center;
-
 }
 
-label{
+label {
     font-size: 15px;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-h1{
+h1 {
     font-size: 35px;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin-left: 80%;
 }
 
-
 .navbar {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     display: flex;
-    justify-content: center;  
-    gap: 20px;  
+    justify-content: center;
+    gap: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
+h5 {
+    font-size: 18px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin-left: 15%;
+    margin-right: 15%;
+    text-align: left;
+}
+
 .navbar a {
-    text-decoration: none;  
-    font-size: 20px;  
+    text-decoration: none;
+    font-size: 20px;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: rgb(255, 255, 255);
     font-weight: bold;
-
 }
 
-h6{
+h6 {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 23px;  
+    font-size: 20px;
     margin-left: 15%;
     margin-right: 15%;
+    text-align: center;
 }
 
-a{
-    text-decoration: none;  
+a {
+    text-decoration: none;
     color: rgb(255, 255, 255);
 }
 
-h4{
+h4 {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 10px;  
+    font-size: 10px;
     text-align: center;
     color: rgb(255, 255, 255);
 }
@@ -84,7 +90,6 @@ body {
     width: 100%;
 }
 
-
 form {
     background-color: #222;
     padding: 20px;
@@ -104,9 +109,8 @@ input, select, textarea {
     border-radius: 5px;
     background-color: #333;
     color: white;
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
-
 
 button, input[type="submit"] {
     background-color: #4CAF50;
@@ -121,18 +125,99 @@ button:hover, input[type="submit"]:hover {
     background-color: #45a049;
 }
 
-
 input[type="checkbox"] {
     width: 18px;
     height: 18px;
-    accent-color: #4CAF50; 
+    accent-color: #4CAF50;
     cursor: pointer;
 }
-
 
 input[type="checkbox"] {
     color: white;
     margin-left: 30px;
     cursor: pointer;
     padding-left: 10px;
+}
+
+
+
+
+.overview-box, .image-box {
+    background-color: #222; 
+    border-radius: 10px;
+    padding: 20px;
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); 
+}
+
+.image-box img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+
+.bottom-section {
+    display: flex;
+    gap: 20px;
+    padding: 20px 15%;
+    flex-wrap: wrap;
+}
+
+
+.info-box {
+    background-color: #222; 
+    border-radius: 10px;
+    padding: 20px;
+    flex: 1;
+    min-width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+
+
+
+@media (max-width: 768px) {
+    .top-section, .bottom-section {
+        flex-direction: column;
+    }
+}
+
+
+.video-box {
+    background-color: #222; 
+    border-radius: 10px;
+    padding: 20px;
+    flex: 1;
+    min-width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+
+.top-section {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+    padding: 20px 15%;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+.overview-box, .image-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.top-section {
+    align-items: stretch;
+}
+
+.delete{
+    color: red;
 }
