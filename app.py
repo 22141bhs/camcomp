@@ -1,7 +1,7 @@
-from flask import Flask,render_template, request
+from flask import Flask, render_template, request
 import sqlite3
 import os
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -35,19 +35,21 @@ camera_add = {"manufacturer_id": 0,
               "amount_lens": 0}
 
 
-
-
-
 @app.route("/")
 def home():
     return render_template("home.html")
+
 
 @app.route("/admin")
 def admin():
     with sqlite3.connect("database.db") as db:
         
-        manufacturer_entries = db.cursor().execute("SELECT manufacturer_id, manufacturer FROM manufacturer_table;")
-    return render_template("admin.html", admin_active=admin_active, login_message=login_message, manufacturers=manufacturer_entries)
+        manufacturer_entries = db.cursor().execute("SELECT manufacturer_id, manufacturer "
+                                                    "FROM manufacturer_table;")
+    return render_template("admin.html",
+                           admin_active=admin_active,
+                           login_message=login_message,
+                           manufacturers=manufacturer_entries)
 
 
 @app.route("/admin/2", methods=["GET", "POST"])
@@ -223,38 +225,36 @@ def cameras(cam_id):
     cur.execute('SELECT name, manufacturer, release_date, megapixel, ergonomics, cont_shoot, max_iso, min_iso, video_res, vid_frame_rate, flash, bit_depth, mount, sensor_size, slomo_vidres, slomo_vidfps, shots_per_bat, af_points, af_point_type, face_af, eye_af, ibis, price, overall_rating, amount_lens, image FROM cameras JOIN manufacturer_table ON cameras.manufacturer_id = manufacturer_table.manufacturer_id WHERE cam_id = ?', (cam_id,))
     cameradata = cur.fetchall()[0]
     camera = {
-    "name": cameradata[0],
-    "manufacturer": cameradata[1],
-    "release_date": cameradata[2],
-    "megapixel": cameradata[3],
-    "ergonomics": cameradata[4],
-    "cont_shoot": cameradata[5],
-    "max_iso": cameradata[6],
-    "min_iso": cameradata[7],
-    "video_res": cameradata[8],
-    "vid_frame_rate": cameradata[9],
-    "flash": cameradata[10],
-    "bit_depth": cameradata[11],
-    "mount": cameradata[12],
-    "sensor_size": cameradata[13],
-    "slomo_vidres": cameradata[14],
-    "slomo_vidfps": cameradata[15],
-    "shots_per_bat": cameradata[16],
-    "af_points": cameradata[17],
-    "af_point_type": cameradata[18],
-    "face_af": cameradata[19],
-    "eye_af": cameradata[20],
-    "ibis": cameradata[21],
-    "price": cameradata[22],
-    "rating": cameradata[23],
-    "lens_amount": cameradata[24],
-    "image": cameradata[25],
-    "cam_id": cam_id
+            "name": cameradata[0],
+            "manufacturer": cameradata[1],
+            "release_date": cameradata[2],
+            "megapixel": cameradata[3],
+            "ergonomics": cameradata[4],
+            "cont_shoot": cameradata[5],
+            "max_iso": cameradata[6],
+            "min_iso": cameradata[7],
+            "video_res": cameradata[8],
+            "vid_frame_rate": cameradata[9],
+            "flash": cameradata[10],
+            "bit_depth": cameradata[11],
+            "mount": cameradata[12],
+            "sensor_size": cameradata[13],
+            "slomo_vidres": cameradata[14],
+            "slomo_vidfps": cameradata[15],
+            "shots_per_bat": cameradata[16],
+            "af_points": cameradata[17],
+            "af_point_type": cameradata[18],
+            "face_af": cameradata[19],
+            "eye_af": cameradata[20],
+            "ibis": cameradata[21],
+            "price": cameradata[22],
+            "rating": cameradata[23],
+            "lens_amount": cameradata[24],
+            "image": cameradata[25],
+            "cam_id": cam_id
     }
-
-
     conn.close()
-    return render_template("camera.html",camera = camera, admin=admin_active)
+    return render_template("camera.html", camera=camera, admin=admin_active)
 
 
 @app.route("/delete/<int:id>")
@@ -270,8 +270,6 @@ def delete_camera(id):
         return app.redirect("/all_cameras")
     else:
         return "You do not have permission to be on this page!"
-
-
 
 
 if __name__ == "__main__":
