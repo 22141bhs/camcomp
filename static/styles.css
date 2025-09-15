@@ -221,3 +221,11 @@ input[type="checkbox"] {
 .delete{
     color: red;
 }
+
+.error{
+    font-size: 22px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin-left: 15%;
+    margin-right: 15%;
+    text-align: center;
+}
