@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, abort
 import sqlite3
 import os
 from werkzeug.security import check_password_hash
@@ -223,7 +223,9 @@ def cameras(cam_id):
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
     cur.execute('SELECT name, manufacturer, release_date, megapixel, ergonomics, cont_shoot, max_iso, min_iso, video_res, vid_frame_rate, flash, bit_depth, mount, sensor_size, slomo_vidres, slomo_vidfps, shots_per_bat, af_points, af_point_type, face_af, eye_af, ibis, price, overall_rating, amount_lens, image FROM cameras JOIN manufacturer_table ON cameras.manufacturer_id = manufacturer_table.manufacturer_id WHERE cam_id = ?', (cam_id,))
-    cameradata = cur.fetchall()[0]
+    cameradata = cur.fetchall()
+    if not cameradata:
+        abort(404)
     camera = {
             "name": cameradata[0],
             "manufacturer": cameradata[1],
@@ -270,6 +272,11 @@ def delete_camera(id):
         return app.redirect("/all_cameras")
     else:
         return "You do not have permission to be on this page!"
+
+
+@app.errorhandler(404)
+def error_404(e):
+    return render_template("error_page.html", error=e)
 
 
 if __name__ == "__main__":
