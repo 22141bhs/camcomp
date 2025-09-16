@@ -1,3 +1,4 @@
+'''Charlie Helmore NCEA L2 Camera Comparison 2025'''
 from flask import Flask, render_template, request, abort
 import sqlite3
 import os
@@ -39,8 +40,9 @@ camera_add = {"manufacturer_id": 0,
 def admin():
     with sqlite3.connect("database.db") as db:
 
-        manufacturer_entries = db.cursor().execute("SELECT manufacturer_id, manufacturer "
-                                                    "FROM manufacturer_table;")
+        manufacturer_entries = db.cursor().execute('''SELECT manufacturer_id,
+                                                   manufacturer FROM
+                                                   manufacturer_table;''')
     return render_template("admin.html",
                            admin_active=admin_active,
                            login_message=login_message,
@@ -69,7 +71,6 @@ def admin2():
         camera_add["price"] = price
         camera_add["overall_rating"] = overall_rating
         camera_add["sensor_size"] = sensor_size
-
 
         return render_template("admin2.html")
     else:
@@ -152,10 +153,17 @@ def add_camera():
 
         with sqlite3.connect("database.db") as db:
             db.cursor().execute('''
-                                INSERT INTO cameras (manufacturer_id, name, release_date, megapixel, ergonomics, cont_shoot, max_iso, min_iso, video_res,
-                                vid_frame_rate, flash, bit_depth, mount, sensor_size, slomo_vidres, slomo_vidfps, shots_per_bat, af_points, af_point_type,
-                                face_af, eye_af, ibis, price, overall_rating, amount_lens, image)
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);''',
+                                INSERT INTO cameras (manufacturer_id, name,
+                                release_date, megapixel, ergonomics,
+                                cont_shoot, max_iso, min_iso, video_res,
+                                vid_frame_rate, flash, bit_depth, mount,
+                                sensor_size, slomo_vidres, slomo_vidfps,
+                                shots_per_bat,
+                                af_points, af_point_type, face_af, eye_af,
+                                ibis, price,
+                                overall_rating, amount_lens, image)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+                                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);''',
                                 (camera_add["manufacturer_id"], camera_add["name"], camera_add["release_date"], camera_add["megapixel"], camera_add["ergonomics"], camera_add["cont_shoot"],
                                  camera_add["max_iso"], camera_add["min_iso"], camera_add["video_res"], camera_add["vid_frame_rate"], camera_add["flash"], camera_add["bit_depth"], camera_add["mount"],
                                  camera_add["sensor_size"], camera_add["slomo_vidres"], camera_add["solmo_vidfps"], camera_add["shots_per_bat"], camera_add["af_points"], camera_add["af_points_type"],
@@ -174,7 +182,8 @@ def registerlogin():
     username = request.form.get("username")
     password = request.form.get("password")
     with sqlite3.connect('database.db') as db:
-        userdata = db.cursor().execute("SELECT id, username FROM admin_logins;")
+        userdata = db.cursor().execute('''SELECT id, username FROM
+                                       admin_logins;''')
         for user in userdata:
             if username == user[1]:
                 success = True
@@ -182,7 +191,9 @@ def registerlogin():
                 break
 
         if success:
-            if check_password_hash(db.cursor().execute("SELECT passwordhash FROM admin_logins WHERE id=?;", (userid,)).fetchall()[0][0], password):
+            if check_password_hash(db.cursor().execute('''SELECT passwordhash
+                                                       FROM admin_logins WHERE
+                                                       id=?;''', (userid,)).fetchall()[0][0], password):
                 admin_active = True
             else:
                 login_message = "Incorrect Password"
@@ -197,27 +208,37 @@ def logout():
     admin_active = False
     return app.redirect("admin")
 
+
 @app.route("/")
 def comparison():
     return render_template("comparison.html")
-
-
 
 
 @app.route("/all_cameras")
 def camera():
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
-    cur.execute('SELECT cam_id, name, manufacturer FROM cameras JOIN manufacturer_table ON cameras.manufacturer_id = manufacturer_table.manufacturer_id')
+    cur.execute('''SELECT cam_id, name, manufacturer FROM cameras
+                JOIN manufacturer_table ON cameras.manufacturer_id
+                 = manufacturer_table.manufacturer_id''')
     cameras = cur.fetchall()
     conn.close()
-    return render_template("all_cameras.html",cameras = cameras, admin=admin_active)
+    return render_template("all_cameras.html", cameras=cameras, admin=admin_active)
+
 
 @app.route("/camera/<int:cam_id>")
 def cameras(cam_id):
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
-    cur.execute('SELECT name, manufacturer, release_date, megapixel, ergonomics, cont_shoot, max_iso, min_iso, video_res, vid_frame_rate, flash, bit_depth, mount, sensor_size, slomo_vidres, slomo_vidfps, shots_per_bat, af_points, af_point_type, face_af, eye_af, ibis, price, overall_rating, amount_lens, image FROM cameras JOIN manufacturer_table ON cameras.manufacturer_id = manufacturer_table.manufacturer_id WHERE cam_id = ?', (cam_id,))
+    cur.execute('''SELECT name, manufacturer, release_date, megapixel,
+                 ergonomics, cont_shoot, max_iso, min_iso, video_res,
+                 vid_frame_rate, flash, bit_depth, mount, sensor_size,
+                 slomo_vidres, slomo_vidfps, shots_per_bat, af_points,
+                 af_point_type, face_af, eye_af, ibis, price,
+                 overall_rating, amount_lens, image FROM cameras
+                 JOIN manufacturer_table ON
+                 cameras.manufacturer_id = manufacturer_table.manufacturer_id
+                 WHERE cam_id = ?', (cam_id,''')
     cameradata = cur.fetchall()
     if not cameradata:
         abort(404)

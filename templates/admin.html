@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
 
-{% if not admin_active %}
-<h3>Login</h3>
+{% if not admin_active %} <!-- If admin mode is NOT active it will send the user to the login page. -->
+<h3>Login</h3> <!-- Login page -->
 <form action="/registerlogin" method="post">
     <label>Username</label>
     <input type="text" name="username" required>
@@ -15,7 +15,7 @@
 {% if login_message %}
 {% endif %}
 {% else %}
-<h3>Add a Camera</h3>
+<h3>Add a Camera</h3> <!-- Adding a camera form 1/3 -->
 <form action="/admin/2" method="post">
     <label>Camera Name</label>
     <input type="text" name="name" maxlength="15" required><br><br>
@@ -23,7 +23,7 @@
     <label>Manufacturer</label>
     <select name="manufacturer">
         {% for i in manufacturers %}
-        <option value="{{i[0]}}">{{i[1]}}</option>
+        <option value="{{i[0]}}">{{i[1]}}</option> <!-- Manufacturer IDs are sent to the data base -->
         {% endfor %}
     </select>
 
@@ -40,7 +40,6 @@
         <option value="RF">Canon RF</option>
         <option value="FE">Sony FE</option>
         <option value="Z">Nikon Z</option>
-        <option value="RF">Canon RF</option>
         <option value="L">Lecia L</option>
 
     </select>
@@ -73,6 +72,6 @@
     <input type="submit" value="Continue">
 </form>
 
-<h4><a href="/logout">LOGOUT</a></h4>
+<h4><a href="/logout">LOGOUT</a></h4> <!-- Logout button -->
 {% endif %}
 {% endblock %}

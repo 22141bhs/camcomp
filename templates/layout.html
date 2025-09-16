@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en">  <!-- Set langauge to english -->
 <head>
-    <link rel="icon" href="/static/favicon.png" type="image/png">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="/static/favicon.png" type="image/png"> <!-- Favicon image -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> <!-- Links the CSS style sheet for colours and fonts -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Camera Data</title>
+    <title>Camera Comparison</title>
 </head>
-<header class="hero-image">
+<header class="hero-image"> <!-- Displays the hero image at the top of the page -->
     <div class="text">
         <h1>Camera Comparison</h1>
     </div>
 </header>
 <body>
-    <nav class="navbar overlay">
+    <nav class="navbar overlay"> <!-- Nav bar with comparion, all cameras and admin -->
         <a href="/all_cameras">Camera List</a>
         <a href="/">Comparison</a>
         <a href="/admin">Admin</a>
     </nav>
     {% block content %}
     {% endblock %}
-    <h4>2025 Camera Comparison</h4>
+    <h4>2025 Camera Comparison</h4> <!-- Footer -->
 </body>
 </html>

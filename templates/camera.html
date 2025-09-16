@@ -2,17 +2,12 @@
 {% block content %}
 
 <h6>{{camera["manufacturer"]}} {{camera["name"]}} </h6>
-{% if admin %}
-<a class="delete" href="/delete/{{camera['cam_id']}}">X</a>
-{% endif %}
-
-
 
 <div class="top-section">
     <div class="overview-box">
         <h6>Overview for the {{camera["manufacturer"]}} {{camera["name"]}}</h6>
         <h3>
-            This is the {{camera["manufacturer"]}} {{camera["name"]}} a camera released on {{camera["release_date"]}}.
+            This is the {{camera["manufacturer"]}} {{camera["name"]}} a camera released on {{camera["release_date"]}}. <!-- Overveiw text for each camera, changes based on what data is for each camera -->
             The {{camera["name"]}} has a {{camera["megapixel"]}} megapixel {{camera["sensor_size"]}} sized sensor,
             this camera has the {{camera["manufacturer"]}} {{camera["mount"]}} mount with {{camera["lens_amount"]}} lenses to choose from.
             For the price of {{camera["price"]}} NZD the {{camera["manufacturer"]}} {{camera["name"]}} is a {{camera["rating"]}} camera.
@@ -22,28 +17,28 @@
         <h3>Manufacturer: {{camera["manufacturer"]}}</h3>
         <h3>Release date: {{camera["release_date"]}}</h3>
         <h3>Megapixels: {{camera["megapixel"]}}</h3>
-        <h3>Lens mount: {{camera["manufacturer"]}} {{camera["mount"]}} mount</h3>
+        <h3>Lens mount: {{camera["manufacturer"]}} {{camera["mount"]}} mount</h3> <!-- Basic information regarding each camera -->
 
     </div>
 
     <div class="video-box">
         <h6>Video Specs</h6>
         <h3>Video: {{camera["video_res"]}} at {{camera["vid_frame_rate"]}}fps</h3>
-        <h3>Slow Motion: {{camera["slomo_vidres"]}} at {{camera["slomo_vidfps"]}}fps</h3>
-        <h3>Bit depth: {{camera["bit_depth"]}} bit colour</h3>
+        <h3>Slow Motion: {{camera["slomo_vidres"]}} at {{camera["slomo_vidfps"]}}fps</h3> <!-- Video imformation -->
+        <h3>Bit depth: {{camera["bit_depth"]}} bit colour</h3> 
     </div>
     <div class="image-box">
-        <img src="/static/images/{{camera['cam_id']}}/{{camera['image']}}" alt="{{camera['manufacturer']}} {{camera['name']}}">
+        <img src="/static/images/{{camera['cam_id']}}/{{camera['image']}}" alt="{{camera['manufacturer']}} {{camera['name']}}"> <!-- Displaying the image for the select camera -->
     </div>
 </div>
 
 
 
-<div class="bottom-section">
+<div class="bottom-section"> <!-- Bottom section class -->
     <div class="info-box">
         <h6>Autofocus</h6>
         <h3>
-            The {{camera["manufacturer"]}} {{camera["name"]}} boasts {{camera["af_point_type"]}} with {{camera["af_points"]}} AF points,
+            The {{camera["manufacturer"]}} {{camera["name"]}} boasts {{camera["af_point_type"]}} with {{camera["af_points"]}} AF points, <!-- Auto focus information -->
             the {{camera["manufacturer"]}} {{camera["name"]}} {{camera["face_af"]}} have face AF,
             it {{camera["eye_af"]}} have eye AF.
         </h3>
@@ -53,7 +48,7 @@
         <h6>Low light performance</h6>
         {% if camera["sensor_size"] == "APS C" %}
         <h3>
-            The {{camera["name"]}} has a {{camera["sensor_size"]}} sized sensor which has decent low light performance
+            The {{camera["name"]}} has a {{camera["sensor_size"]}} sized sensor which has decent low light performance <!-- Low light information -->
             but not as good as full frame due to a smaller sensor area. The {{camera["name"]}} has a iso range of
             {{camera["min_iso"]}}-{{camera["max_iso"]}}
         </h3>
@@ -69,22 +64,39 @@
 
 
     <div class="info-box">
-        <h6>Ergonomics and Portability</h6>
+        <h6>Ergonomics and Portability</h6> <!-- Ergonomics and Portability imformation -->
         {% if camera["sensor_size"] == "APS C" %}
         <h3>
-            The {{camera["manufacturer"]}} {{camera["name"]}} is a {{camera["sensor_size"]}} sized sensor and normally
+            The {{camera["manufacturer"]}} {{camera["name"]}} is a {{camera["sensor_size"]}} sized sensor and normally <!-- Apsc in fo -->
             {{camera["sensor_size"]}} cameras are alot smaller than Full Frame, this makes the {{camera["manufacturer"]}} {{camera["name"]}} better in terms of portability.
             Ergonomics are another important factor because if it's not comfortable you will not have fun taking photos,
             the {{camera["manufacturer"]}} {{camera["name"]}} is {{camera["ergonomics"]}} when it comes to ergonomics.
             Added with the fact this is a APS C sized system the {{camera["name"]}} will be {{camera["ergonomics"]}} for portability and comfort.
         </h3>
         {% endif %}
-        {% if camera["sensor_size"] == "Full Frame" %}
+        {% if camera["sensor_size"] == "Full Frame" %} <!-- Based on the sensor size data this if statment displays differnt text for each sensor size -->
         <h3>
-            The {{camera["manufacturer"]}} {{camera["name"]}} is a {{camera["sensor_size"]}} sized sensor and full frame cameras are alot more bulky and less portable due to having a larger full frame sensor.
+            The {{camera["manufacturer"]}} {{camera["name"]}} is a {{camera["sensor_size"]}} sized sensor and full frame cameras are alot more bulky and less portable due to having a larger full frame sensor. <!-- Full frame info -->
             This makes the {{camera["name"]}} not the best in terms of portability (with some exceptions). Now for ergonomics, sensor size is irrelevant here, the {{camera["name"]}} has {{camera["ergonomics"]}} ergonomics in terms of grip for your hands.
         </h3>
         {% endif %}
+        {% if camera["sensor_size"] == "Medium Format" %}
+        <h3>
+            The {{camera["manufacturer"]}} {{camera["name"]}} has a {{camera["sensor_size"]}} <!-- Medium formant info -->
+        </h3>
+        {% endif %}
+        {% if camera["sensor_size"] == "MFT" %}
+        <h3>
+            The {{camera["manufacturer"]}} {{camera["name"]}} has a {{camera["sensor_size"]}} <!-- MFT info -->
+        </h3>
+        {% endif %}
+        {% if camera["sensor_size"] == "1in" %}
+        <h3>
+            The {{camera["manufacturer"]}} {{camera["name"]}} has a {{camera["sensor_size"]}} <!-- 1inch info -->
+        </h3>
+        {% endif %}
+
+
     </div>
 </div>
 
