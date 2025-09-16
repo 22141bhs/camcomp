@@ -1,15 +1,15 @@
 '''Charlie Helmore NCEA L2 Camera Comparison 2025'''
-from flask import Flask, render_template, request, abort
+from flask import Flask, render_template, request, abort  # importing all flask, templates, spl, os and hashing modules
 import sqlite3
 import os
 from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 
-app = Flask(__name__)
+app = Flask(__name__)  #defining variables
 login_message = ""
 admin_active = False
-app.config["UPLOAD_FOLDER"] = "static/images"
-camera_add = {"manufacturer_id": 0,
+app.config["UPLOAD_FOLDER"] = "static/images"  # Camera file upload
+camera_add = {"manufacturer_id": 0,  # Dictonary to store the sequential form for the add a camera function. Becuase it can commit to the bata base all in one go which is cleaner and efficent
               "name": "",
               "release_date": "",
               "megapixel": 1,
@@ -36,9 +36,9 @@ camera_add = {"manufacturer_id": 0,
               "amount_lens": 0}
 
 
-@app.route("/admin")
+@app.route("/admin")  # Admin route
 def admin():
-    with sqlite3.connect("database.db") as db:
+    with sqlite3.connect("database.db") as db: # Connecting to the database
 
         manufacturer_entries = db.cursor().execute('''SELECT manufacturer_id,
                                                    manufacturer FROM
@@ -51,7 +51,7 @@ def admin():
 
 @app.route("/admin/2", methods=["GET", "POST"])
 def admin2():
-    if admin_active:
+    if admin_active:  # First form for adding a camera to ther database
         name = request.form.get("name")
         manufacturer = request.form.get("manufacturer")
         release_date = request.form.get("release_date")
@@ -64,7 +64,7 @@ def admin2():
         release_date = release_date[8:] + "/" + release_date[5:7] + "/" + release_date[:4]
 
         camera_add["name"] = name
-        camera_add["manufacturer_id"] = manufacturer
+        camera_add["manufacturer_id"] = manufacturer  # Adding the data to the dictonary stored at the top
         camera_add["release_date"] = release_date
         camera_add["megapixel"] = megapixels
         camera_add["mount"] = mount
@@ -72,9 +72,9 @@ def admin2():
         camera_add["overall_rating"] = overall_rating
         camera_add["sensor_size"] = sensor_size
 
-        return render_template("admin2.html")
+        return render_template("admin2.html") # Once completed it will send them to the next page of the form
     else:
-        abort(404)
+        abort(404)  # If a user tries to get to this page if admin is off it will give them a 404 error
 
 
 @app.route("/admin/3", methods=["GET", "POST"])
@@ -85,10 +85,7 @@ def admin3():
         flash = request.form.get("flash")
         bit_depth = request.form.get("bit_depth")
 
-        if flash:
-            flash = "does"
-        else:
-            flash = "doesn't"
+        flash = "does" if flash else "doesn't"  # Changing a drop down menu into a does or dosent string
 
         camera_add["max_iso"] = max_iso
         camera_add["min_iso"] = min_iso
@@ -97,12 +94,12 @@ def admin3():
 
         return render_template("admin3.html")
     else:
-        abort(404)
+        abort(404)  # If a user tries to get to this page if admin is off it will give them a 404 error
 
 
-@app.route("/admin/addcamera", methods=["GET", "POST"])
+@app.route("/admin/addcamera", methods=["GET", "POST"])  # Once completed all forms this route will commit all data to the data base 
 def add_camera():
-    if admin_active:
+    if admin_active:  # Will only commit if admin mode is active and if not it will 404 error
         camera_add["cont_shoot"] = request.form.get("cont_shoot")
         camera_add["video_res"] = request.form.get("video_res")
         camera_add["vid_frame_rate"] = request.form.get("vid_frame_rate")
@@ -130,28 +127,19 @@ def add_camera():
             camera_id = db.cursor().execute("SELECT cam_id FROM cameras;").fetchall()[-1][0] + 1
 
         os.mkdir(f"{app.config["UPLOAD_FOLDER"]}/{camera_id}")
-        image.save(os.path.join(f"{app.config["UPLOAD_FOLDER"]}/{camera_id}/", image_name))
+        image.save(os.path.join(f"{app.config["UPLOAD_FOLDER"]}/{camera_id}/", image_name))  # Uploading image files with camera id and original file name
 
-        if face_af:
-            face_af = "does"
-        else:
-            face_af = "doesn't"
+        face_af = "does" if face_af else "doesn't"  # Changing a drop down menu input into a does or dosent string
 
-        if eye_af:
-            eye_af = "does"
-        else:
-            eye_af = "doesn't"
+        eye_af = "does" if eye_af else "doesn't"  # "
 
-        if ibis:
-            ibis = "does"
-        else:
-            ibis = "doesn't"
+        ibis = "does" if ibis else "doesn't"  # "
 
-        camera_add["face_af"] = face_af
+        camera_add["face_af"] = face_af  # Adding data to dictonary
         camera_add["eye_af"] = eye_af
         camera_add["ibis"] = ibis
 
-        with sqlite3.connect("database.db") as db:
+        with sqlite3.connect("database.db") as db:  #  Commiting the data from the dictonary to the database
             db.cursor().execute('''
                                 INSERT INTO cameras (manufacturer_id, name,
                                 release_date, megapixel, ergonomics,
@@ -168,14 +156,14 @@ def add_camera():
                                  camera_add["max_iso"], camera_add["min_iso"], camera_add["video_res"], camera_add["vid_frame_rate"], camera_add["flash"], camera_add["bit_depth"], camera_add["mount"],
                                  camera_add["sensor_size"], camera_add["slomo_vidres"], camera_add["solmo_vidfps"], camera_add["shots_per_bat"], camera_add["af_points"], camera_add["af_points_type"],
                                  camera_add["face_af"], camera_add["eye_af"], camera_add["ibis"], camera_add["price"], camera_add["overall_rating"], camera_add["amount_lens"], image_name))
-        return app.redirect("/all_cameras")
+        return app.redirect("/all_cameras")  # Once commited it redirects you to the camera list to veiw your cameras
 
     else:
-        return "You do not have permission to be on this page!"
+        abort(404)  # If admin mode not active give a 404
 
 
-@app.route("/registerlogin", methods=['GET', 'POST'])
-def registerlogin():
+@app.route("/registerlogin", methods=['GET', 'POST'])  # Used to set up and admin user if already setup redirect to admin page
+def registerlogin(): 
     global login_message, admin_active
     success = False
     userid = 0
@@ -202,33 +190,33 @@ def registerlogin():
     return app.redirect("admin")
 
 
-@app.route("/logout")
+@app.route("/logout")  # When the logout button ot the bottom of the page is pressed it disables admin mode and redirets you to admin page
 def logout():
     global admin_active
     admin_active = False
     return app.redirect("admin")
 
 
-@app.route("/")
+@app.route("/")  # Main home page 
 def comparison():
     return render_template("comparison.html")
 
 
-@app.route("/all_cameras")
+@app.route("/all_cameras")  # Route for all camera in the database. It is here to show every single camera in the database.
 def camera():
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
     cur.execute('''SELECT cam_id, name, manufacturer FROM cameras
                 JOIN manufacturer_table ON cameras.manufacturer_id
-                 = manufacturer_table.manufacturer_id''')
+                 = manufacturer_table.manufacturer_id''')  # This SQL query is here to get the camera id name and manufacturer to show on the page
     cameras = cur.fetchall()
     conn.close()
     return render_template("all_cameras.html", cameras=cameras, admin=admin_active)
 
 
-@app.route("/camera/<int:cam_id>")
+@app.route("/camera/<int:cam_id>")  # Route for a single camera. This is here becuase it shows data about each specific camera individually
 def cameras(cam_id):
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('database.db')  # Connecting to the database
     cur = conn.cursor()
     cur.execute('''SELECT name, manufacturer, release_date, megapixel,
                  ergonomics, cont_shoot, max_iso, min_iso, video_res,
@@ -238,13 +226,13 @@ def cameras(cam_id):
                  overall_rating, amount_lens, image FROM cameras
                  JOIN manufacturer_table ON
                  cameras.manufacturer_id = manufacturer_table.manufacturer_id
-                 WHERE cam_id = ?', (cam_id,''')
+                 WHERE cam_id = ?''', (cam_id,))  # This SQL query is here to get ALL the data from the data base to display it on the page.
     cameradata = cur.fetchall()
     if not cameradata:
-        abort(404)
+        abort(404)  # If there is no camera data avaliable if will 404
     cameradata = cameradata[0]
     camera = {
-            "name": cameradata[0],
+            "name": cameradata[0],  # This exists so it turns the RAW sql query data into information that can be easilt called upon
             "manufacturer": cameradata[1],
             "release_date": cameradata[2],
             "megapixel": cameradata[3],
@@ -291,7 +279,7 @@ def delete_camera(id):
         return "You do not have permission to be on this page!"
 
 
-@app.errorhandler(404)
+@app.errorhandler(404)  # Error page if user goes somewhere that doesnt exist or where they shouldent be it will give them a 404 or an error
 def error_404(e):
     return render_template("error_page.html", error=e)
 
