@@ -35,11 +35,6 @@ camera_add = {"manufacturer_id": 0,
               "amount_lens": 0}
 
 
-@app.route("/")
-def home():
-    return render_template("home.html")
-
-
 @app.route("/admin")
 def admin():
     with sqlite3.connect("database.db") as db:
@@ -202,7 +197,7 @@ def logout():
     admin_active = False
     return app.redirect("admin")
 
-@app.route("/comparison")
+@app.route("/")
 def comparison():
     return render_template("comparison.html")
 
