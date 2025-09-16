@@ -5,7 +5,7 @@ import os
 from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 
-app = Flask(__name__)  #defining variables
+app = Flask(__name__)  # defining variables
 login_message = ""
 admin_active = False
 app.config["UPLOAD_FOLDER"] = "static/images"  # Camera file upload
@@ -38,7 +38,7 @@ camera_add = {"manufacturer_id": 0,  # Dictonary to store the sequential form fo
 
 @app.route("/admin")  # Admin route
 def admin():
-    with sqlite3.connect("database.db") as db: # Connecting to the database
+    with sqlite3.connect("database.db") as db:  # Connecting to the database
 
         manufacturer_entries = db.cursor().execute('''SELECT manufacturer_id,
                                                    manufacturer FROM
@@ -72,7 +72,7 @@ def admin2():
         camera_add["overall_rating"] = overall_rating
         camera_add["sensor_size"] = sensor_size
 
-        return render_template("admin2.html") # Once completed it will send them to the next page of the form
+        return render_template("admin2.html")  # Once completed it will send them to the next page of the form
     else:
         abort(404)  # If a user tries to get to this page if admin is off it will give them a 404 error
 
@@ -97,7 +97,7 @@ def admin3():
         abort(404)  # If a user tries to get to this page if admin is off it will give them a 404 error
 
 
-@app.route("/admin/addcamera", methods=["GET", "POST"])  # Once completed all forms this route will commit all data to the data base 
+@app.route("/admin/addcamera", methods=["GET", "POST"])  # Once completed all forms this route will commit all data to the data base
 def add_camera():
     if admin_active:  # Will only commit if admin mode is active and if not it will 404 error
         camera_add["cont_shoot"] = request.form.get("cont_shoot")
@@ -139,7 +139,7 @@ def add_camera():
         camera_add["eye_af"] = eye_af
         camera_add["ibis"] = ibis
 
-        with sqlite3.connect("database.db") as db:  #  Commiting the data from the dictonary to the database
+        with sqlite3.connect("database.db") as db:  # Commiting the data from the dictonary to the database
             db.cursor().execute('''
                                 INSERT INTO cameras (manufacturer_id, name,
                                 release_date, megapixel, ergonomics,
@@ -163,7 +163,7 @@ def add_camera():
 
 
 @app.route("/registerlogin", methods=['GET', 'POST'])  # Used to set up and admin user if already setup redirect to admin page
-def registerlogin(): 
+def registerlogin():
     global login_message, admin_active
     success = False
     userid = 0
@@ -197,7 +197,7 @@ def logout():
     return app.redirect("admin")
 
 
-@app.route("/")  # Main home page 
+@app.route("/")  # Main home page
 def comparison():
     return render_template("comparison.html")
 
