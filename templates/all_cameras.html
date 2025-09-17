@@ -1,11 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
+<h6>All Cameras</h6>
 {% for cam in cameras %}
 <h5>
-<a class="camtext" href="/camera/{{cam[0]}}">{{cam[2]}} {{cam[1]}}   </a> <!-- Displaying the camera name and brand -->
-{% if admin %}
-<a class="delete" href="/delete/{{cam[0]}}">X</a> <!-- Delete function. This is nonly visible if admin mode is active -->
-{% endif %}
+    <a class="camtext" href="/camera/{{cam[0]}}">{{cam[2]}} {{cam[1]}}</a>   <!-- Displaying the camera name and brand --> <a class="infobutton" href="/camera/{{cam[0]}}">Info</a>  <!-- Info Button  --> {% if admin %} <a class="delete" href="/delete/{{cam[0]}}">Delete</a> <!-- Delete function. This is nonly visible if admin mode is active -->         {% endif %}
+    </div>
 </h5>
 {% endfor %}
+{% if admin %}
+<h4><a href="/logout">LOGOUT</a></h4> <!-- Logout button -->
+{% endif %}
 {% endblock %}
+
+
+
+
