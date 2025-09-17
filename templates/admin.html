@@ -2,7 +2,7 @@
 {% block content %}
 
 {% if not admin_active %} <!-- If admin mode is NOT active it will send the user to the login page. -->
-<h3>Login</h3> <!-- Login page -->
+<h6>Login</h6> <!-- Login page -->
 <form action="/registerlogin" method="post">
     <label>Username</label>
     <input type="text" name="username" required>
