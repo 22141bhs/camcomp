@@ -1,5 +1,21 @@
 {% extends "layout.html" %}
 {% block content %}
-<h3>This is the comparison page Work in progress</h3>
+<h6>Camera Comparison</h6>
+<form action="/comparison" method="post" class="post">
+    <label>Camera One</label>
+    <select name="camera1">
+        {% for camera in cameras %}
+        <option value="{{ camera[0] }}">{{ camera[2] }} {{ camera[1] }}</option>
+        {% endfor %}
+    </select>
 
+    <label>Camera Two</label>
+    <select name="camera2">
+        {% for camera in cameras %}
+        <option value="{{ camera[0] }}">{{ camera[2] }} {{ camera[1] }}</option>
+        {% endfor %}
+    </select>    
+
+    <input type="submit" value="Compare">
+</form>
 {% endblock %}

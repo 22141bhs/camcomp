@@ -199,7 +199,16 @@ def logout():
 
 @app.route("/")  # Main home page
 def comparison():
-    return render_template("comparison.html")
+    with sqlite3.connect("database.db") as db:
+        cameras = db.cursor().execute('''SELECT cam_id, name, manufacturer FROM cameras
+                JOIN manufacturer_table ON cameras.manufacturer_id
+                 = manufacturer_table.manufacturer_id''').fetchall()
+    return render_template("comparison.html", cameras=cameras)
+
+
+@app.route("/comparison")
+def comparisonv2():
+    return render_template("comparisonv2.html")
 
 
 @app.route("/all_cameras")  # Route for all camera in the database. It is here to show every single camera in the database.
