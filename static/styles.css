@@ -291,4 +291,21 @@ a.infobutton:hover {
     transform: scale(1.05);
 }
 
+a.logout {
+    display: inline-block;
+    background-color: #c22a2a;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 6px 14px;
+    border-radius: 6px;
+    margin-right: 15px;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
 
+a.logout:hover {
+    background-color: #e25252;
+    transform: scale(1.05);
+}
