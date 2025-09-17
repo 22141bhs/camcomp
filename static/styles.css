@@ -59,6 +59,8 @@ h6 {
 a {
     text-decoration: none;
     color: rgb(255, 255, 255);
+    text-align: center;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 h4 {
@@ -223,17 +225,6 @@ input[type="checkbox"] {
 .top-section {
     align-items: stretch;
 }
-
-
-.error{
-    font-size: 22px;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    margin-left: 15%;
-    margin-right: 15%;
-    text-align: center;
-    margin-top: 30px;
-}
-
 
 h5 {
     font-size: 18px;
