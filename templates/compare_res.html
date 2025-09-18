@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+{% block content %}
+<h6>Camera Comparison</h6>
+<div class="top-section">
+    <div class="overview-box">
+        <h6>{{camera1['manufacturer']}} {{camera1['name']}}</h6>
+        <h3>Name: {{camera1['name']}}</h3>
+        <h3>Brand: {{camera1['manufacturer']}}</h3>
+        <h3>Release Date: {{camera1['release_date']}}</h3>
+        <h3>Mount: {{camera1['manufacturer']}} {{camera1['mount']}} mount</h3>
+        <h3>Megapixels: {{camera1['megapixel']}}</h3>
+        <h3>Sensor Size: {{camera1['sensor_size']}}</h3>
+        <h3>Price: ${{camera1['price']}} NZD</h3>
+        <h6>Video</h6>
+        <h3>Video Resolution: {{camera1['video_res']}} at {{camera1['vid_frame_rate']}} fps</h3>
+        <h3>Slow Motion Resolution: {{camera1['slomo_vidres']}} at {{camera1['slomo_vidfps']}} fps</h3>
+        <h3>Bit Depth: {{camera1['bit_depth']}} bit video colour depth</h3>
+        <h6>Autofocus</h6>
+        <h3>AF Points: {{camera1['af_points']}} {{camera1['af_point_type']}} autofocus points</h3>
+        <h3>Face AF: It {{camera1['face_af']}} have face AF</h3>
+        <h3>Eye AF: It {{camera1['eye_af']}} have eye AF</h3>
+        <h3>Ibis: {{camera1['ibis']}}</h3>
+        <h6>Misc Info</h6>
+        <h3>Continuous Shooting Speed: {{camera1['cont_shoot']}} fps</h3>
+        <h3>Max Iso sensitivity: {{camera1['max_iso']}}</h3>
+        <h3>Min Iso sensitivity: {{camera1['min_iso']}}</h3>
+        <h3>Flash: {{camera1['flash']}}</h3>
+        <h3>Photos per battery: {{camera1['shots_per_bat']}} shots</h3>
+        <h3>How many compatable lenses: {{camera1['amount_lens']}}</h3>
+    </div>
+    <div class="image-box">
+        <h6>{{camera2['manufacturer']}} {{camera2['name']}}</h6>
+        <h3>Name: {{camera2['name']}}</h3>
+        <h3>Brand: {{camera2['manufacturer']}}</h3>
+        <h3>Release Date: {{camera2['release_date']}}</h3>
+        <h3>Mount: {{camera2['manufacturer']}} {{camera2['mount']}} mount</h3>
+        <h3>Megapixels: {{camera2['megapixel']}}</h3>
+        <h3>Sensor Size: {{camera2['sensor_size']}}</h3>
+        <h3>Price: ${{camera2['price']}} NZD</h3>
+        <h6>Video</h6>
+        <h3>Video Resolution: {{camera2['video_res']}} at {{camera2['vid_frame_rate']}} fps</h3>
+        <h3>Slow Motion Resolution: {{camera2['slomo_vidres']}} at {{camera2['slomo_vidfps']}} fps</h3>
+        <h3>Bit Depth: {{camera2['bit_depth']}} bit video colour depth</h3>
+        <h6>Autofocus</h6>
+        <h3>AF Points: {{camera2['af_points']}} {{camera2['af_point_type']}} autofocus points</h3>
+        <h3>Face AF: It {{camera2['face_af']}} have face AF</h3>
+        <h3>Eye AF: It {{camera2['eye_af']}} have eye AF</h3>
+        <h3>Ibis: {{camera2['ibis']}}</h3>
+        <h6>Misc Info</h6>
+        <h3>Continuous Shooting Speed: {{camera2['cont_shoot']}} fps</h3>
+        <h3>Max Iso sensitivity: {{camera2['max_iso']}}</h3>
+        <h3>Min Iso sensitivity: {{camera2['min_iso']}}</h3>
+        <h3>Flash: {{camera2['flash']}}</h3>
+        <h3>Photos per battery: {{camera2['shots_per_bat']}} shots</h3>
+        <h3>How many compatable lenses: {{camera2['amount_lens']}}</h3>
+</div>
+{% endblock %}
+
+

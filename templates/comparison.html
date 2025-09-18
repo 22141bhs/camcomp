@@ -1,20 +1,20 @@
 {% extends "layout.html" %}
 {% block content %}
-<h6>Camera Comparison</h6>
-<form action="/comparison" method="post" class="post">
+<h6>Select Cameras to Compare</h6>
+<form action="" method="post">
     <label>Camera One</label>
-    <select name="camera1">
+    <select name="camera1" required>
         {% for camera in cameras %}
-        <option value="{{ camera[0] }}">{{ camera[2] }} {{ camera[1] }}</option>
+        <option value="{{ camera['cam_id'] }}">{{ camera['name'] }} ({{ camera['manufacturer'] }})</option>
         {% endfor %}
     </select>
 
     <label>Camera Two</label>
-    <select name="camera2">
+    <select name="camera2" required>
         {% for camera in cameras %}
-        <option value="{{ camera[0] }}">{{ camera[2] }} {{ camera[1] }}</option>
+        <option value="{{ camera['cam_id'] }}">{{ camera['name'] }} ({{ camera['manufacturer'] }})</option>
         {% endfor %}
-    </select>    
+    </select>
 
     <input type="submit" value="Compare">
 </form>

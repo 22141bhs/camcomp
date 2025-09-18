@@ -1,9 +1,10 @@
 '''Charlie Helmore NCEA L2 Camera Comparison 2025'''
-from flask import Flask, render_template, request, abort  # importing all flask, templates, spl, os and hashing modules
+from flask import Flask, render_template, request, abort, redirect, url_for  # importing all flask, templates, spl, os and hashing modules
 import sqlite3
 import os
 from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)  # defining variables
 login_message = ""
@@ -197,18 +198,54 @@ def logout():
     return app.redirect("admin")
 
 
-@app.route("/")  # Main home page
-def comparison():
+@app.route("/", methods=["GET", "POST"])
+def compare():
     with sqlite3.connect("database.db") as db:
-        cameras = db.cursor().execute('''SELECT cam_id, name, manufacturer FROM cameras
-                JOIN manufacturer_table ON cameras.manufacturer_id
-                 = manufacturer_table.manufacturer_id''').fetchall()
+        db.row_factory = sqlite3.Row
+        cursor = db.cursor()
+
+        cameras = cursor.execute('''
+            SELECT cam_id, name, manufacturer 
+            FROM cameras
+            JOIN manufacturer_table 
+            ON cameras.manufacturer_id = manufacturer_table.manufacturer_id
+        ''').fetchall()
+
+    if request.method == "POST":
+        cam1_id = request.form.get("camera1")
+        cam2_id = request.form.get("camera2")
+        return redirect(url_for("comparison_result", cam1_id=cam1_id, cam2_id=cam2_id))
+
     return render_template("comparison.html", cameras=cameras)
 
 
-@app.route("/comparison")
-def comparisonv2():
-    return render_template("comparisonv2.html")
+@app.route("/compare_res/<cam1_id>/<cam2_id>")
+def comparison_result(cam1_id, cam2_id):
+    with sqlite3.connect("database.db") as db:
+        db.row_factory = sqlite3.Row
+        cursor = db.cursor()
+
+        camera1 = cursor.execute('''SELECT name, manufacturer, release_date, megapixel,
+                 ergonomics, cont_shoot, max_iso, min_iso, video_res,
+                 vid_frame_rate, flash, bit_depth, mount, sensor_size,
+                 slomo_vidres, slomo_vidfps, shots_per_bat, af_points,
+                 af_point_type, face_af, eye_af, ibis, price,
+                 overall_rating, amount_lens FROM cameras
+                 JOIN manufacturer_table ON
+                 cameras.manufacturer_id = manufacturer_table.manufacturer_id
+                 WHERE cam_id = ?''', (cam1_id,)).fetchone()
+
+        camera2 = cursor.execute('''SELECT name, manufacturer, release_date, megapixel,
+                 ergonomics, cont_shoot, max_iso, min_iso, video_res,
+                 vid_frame_rate, flash, bit_depth, mount, sensor_size,
+                 slomo_vidres, slomo_vidfps, shots_per_bat, af_points,
+                 af_point_type, face_af, eye_af, ibis, price,
+                 overall_rating, amount_lens FROM cameras
+                 JOIN manufacturer_table ON
+                 cameras.manufacturer_id = manufacturer_table.manufacturer_id
+                 WHERE cam_id = ?''', (cam2_id,)).fetchone()
+
+    return render_template("compare_res.html", camera1=camera1, camera2=camera2)
 
 
 @app.route("/all_cameras")  # Route for all camera in the database. It is here to show every single camera in the database.
