@@ -5,14 +5,14 @@
     <label>Camera One</label>
     <select name="camera1" required>
         {% for camera in cameras %}
-        <option value="{{ camera['cam_id'] }}">{{ camera['name'] }} ({{ camera['manufacturer'] }})</option>
+        <option value="{{ camera['cam_id'] }}">{{ camera['manufacturer'] }} {{ camera['name'] }}</option>
         {% endfor %}
     </select>
 
     <label>Camera Two</label>
     <select name="camera2" required>
         {% for camera in cameras %}
-        <option value="{{ camera['cam_id'] }}">{{ camera['name'] }} ({{ camera['manufacturer'] }})</option>
+        <option value="{{ camera['cam_id'] }}">{{ camera['manufacturer'] }} {{ camera['name'] }}</option>
         {% endfor %}
     </select>
 
