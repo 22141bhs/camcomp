@@ -198,16 +198,16 @@ def logout():
     return app.redirect("admin")
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST"])  # Home page where you land and you can pick 2 cameras to compare side by side
 def compare():
     with sqlite3.connect("database.db") as db:
         db.row_factory = sqlite3.Row
         cursor = db.cursor()
-
+        # Get the name id and manufacurer to list them in a drop down
         cameras = cursor.execute('''
-            SELECT cam_id, name, manufacturer 
+            SELECT cam_id, name, manufacturer
             FROM cameras
-            JOIN manufacturer_table 
+            JOIN manufacturer_table
             ON cameras.manufacturer_id = manufacturer_table.manufacturer_id
         ''').fetchall()
 
@@ -219,12 +219,12 @@ def compare():
     return render_template("comparison.html", cameras=cameras)
 
 
-@app.route("/compare_res/<cam1_id>/<cam2_id>")
+@app.route("/compare_res/<cam1_id>/<cam2_id>")  # Route for comparison between 2 camera with both IDs being in the link like 1/2
 def comparison_result(cam1_id, cam2_id):
     with sqlite3.connect("database.db") as db:
         db.row_factory = sqlite3.Row
         cursor = db.cursor()
-
+        # Query for the first camera for comparison to get all imformation
         camera1 = cursor.execute('''SELECT name, manufacturer, release_date, megapixel,
                  ergonomics, cont_shoot, max_iso, min_iso, video_res,
                  vid_frame_rate, flash, bit_depth, mount, sensor_size,
@@ -234,8 +234,8 @@ def comparison_result(cam1_id, cam2_id):
                  JOIN manufacturer_table ON
                  cameras.manufacturer_id = manufacturer_table.manufacturer_id
                  WHERE cam_id = ?''', (cam1_id,)).fetchone()
-
-        camera2 = cursor.execute('''SELECT name, manufacturer, release_date, megapixel,
+        # Query for the second camera for comparison to get all imformation
+        camera2 = cursor.execute('''SELECT name, manufacturer, release_date, megapixel
                  ergonomics, cont_shoot, max_iso, min_iso, video_res,
                  vid_frame_rate, flash, bit_depth, mount, sensor_size,
                  slomo_vidres, slomo_vidfps, shots_per_bat, af_points,
