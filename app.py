@@ -244,7 +244,6 @@ def comparison_result(cam1_id, cam2_id):
                  JOIN manufacturer_table ON
                  cameras.manufacturer_id = manufacturer_table.manufacturer_id
                  WHERE cam_id = ?''', (cam2_id,)).fetchone()
-
     return render_template("compare_res.html", camera1=camera1, camera2=camera2)
 
 

@@ -60,6 +60,21 @@
             {{camera["min_iso"]}}-{{camera["max_iso"]}} which makes it a {{camera["rating"]}} camera for low light use.
         </h3>
         {% endif %}
+        {% if camera["sensor_size"] == "MFT" %}
+        <h3>
+            The {{camera["name"]}} has a {{camera["sensor_size"]}} sized sensor which has bad low light performance due to the small sensor area and small pixels. The {{camera["name"]}} has a ISO range of {{camera["min_iso"]}}-{{camera["max_iso"]}}.
+        </h3>
+        {% endif %}
+        {% if camera["sensor_size"] == "1in" %}
+        <h3>
+            The {{camera["name"]}} has a {{camera["sensor_size"]}} sized sensor which has terrible low light due to the very small sensor which limits the light getting into the sensor. The {{camera["name"]}} has a ISO range of {{camera["min_iso"]}}-{{camera["max_iso"]}}.
+        </h3>
+        {% endif %}
+        {% if camera["sensor_size"] == "Medium Format" %}
+        <h3>
+            The {{camera["name"]}} has a {{camera["sensor_size"]}} sized sensor which has fantastic low light due to the very larhge medium format sensor which lets heaps of light into the sensor. The {{camera["name"]}} has a ISO range of {{camera["min_iso"]}}-{{camera["max_iso"]}}.
+        </h3>
+        {% endif %}
     </div>
 
 
@@ -82,17 +97,17 @@
         {% endif %}
         {% if camera["sensor_size"] == "Medium Format" %}
         <h3>
-            The {{camera["manufacturer"]}} {{camera["name"]}} has a {{camera["sensor_size"]}} <!-- Medium formant info -->
+            The {{camera["manufacturer"]}} {{camera["name"]}} has a {{camera["sensor_size"]}} and since medium format sensors are quite large it generally means the camera body is large are easy to hold but not as portable. But for ergonimics the {{camera["manufacturer"]}} {{camera["name"]}} has {{camera["ergonomics"]}} ergonimics. <!-- Medium formant info -->
         </h3>
         {% endif %}
         {% if camera["sensor_size"] == "MFT" %}
         <h3>
-            The {{camera["manufacturer"]}} {{camera["name"]}} has a {{camera["sensor_size"]}} <!-- MFT info -->
+            The {{camera["manufacturer"]}} {{camera["name"]}} has a {{camera["sensor_size"]}} which is a very small sensor which means its very small and light so its very portable. But for ergonomics dur to the samll body its not the best it terms of ergonomics. <!-- MFT info -->
         </h3>
         {% endif %}
         {% if camera["sensor_size"] == "1in" %}
         <h3>
-            The {{camera["manufacturer"]}} {{camera["name"]}} has a {{camera["sensor_size"]}} <!-- 1inch info -->
+            The {{camera["manufacturer"]}} {{camera["name"]}} has a {{camera["sensor_size"]}} which is a very small sensor found in smartphones and action cameras so due to this small size it makes them very portable but at the cost of ergonimics.<!-- 1inch info -->
         </h3>
         {% endif %}
 
